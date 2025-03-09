@@ -10,13 +10,13 @@ Proyek ini bertujuan untuk menganalisis data dari Bike Sharing Dataset dan menya
 
 ## Struktur Direktori
 
-bike-sharing
-├── dashboard.py    # Kode utama untuk dashboard
-├── day.csv         # Dataset harian
-├── hour.csv        # Dataset per jam
-├── notebook.ipynb  # Notebook Jupyter untuk eksplorasi dan analisis data
-├── requirements.txt # Daftar pustaka yang diperlukan
-└── url.txt         # URL dari dashboard yang dideploy
+Analysis-Bike-Rental
+dashboard.py    # Kode utama untuk dashboard
+day.csv         # Dataset harian
+hour.csv        # Dataset per jam
+notebook.ipynb  # Notebook Jupyter untuk eksplorasi dan analisis data
+requirements.txt # Daftar pustaka yang diperlukan
+url.txt         # URL dari dashboard yang dideploy
 
 ## Instalasi
 1. Clone repository ini ke komputer lokal Anda menggunakan perintah berikut:
