@@ -1,6 +1,6 @@
 # Analysis-Bike-Rental
-## Preivew 
-![image](https://github.com/user-attachments/assets/b355f1bd-7936-49fd-86c0-6fa78069637c)
+## Preview 
+![image](https://github.com/alishaanggranidi/preview.png)
 
 ## Proyek Analisis Data
 Repository ini berisi proyek analisis data yang saya kerjakan sebagai bagian dari submission Belajar Analisis Data dengan Python. Proyek ini menggunakan Streamlit untuk membuat dashboard interaktif berdasarkan Bike Sharing Dataset.
