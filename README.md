@@ -11,10 +11,9 @@ Proyek ini bertujuan untuk menganalisis data dari Bike Sharing Dataset dan menya
 ## Struktur Direktori
 
 Analysis-Bike-Rental/
-- /dashboard.py: Kode utama untuk dashboard
-- /day.csv: Dataset harian
-- /hour.csv: Dataset per jam
-- /notebook.ipynb: Notebook Jupyter untuk eksplorasi dan analisis data
+- **/dashboard**: Direktori ini berisi dashboard.py yang digunakan untuk membuat dashboard hasil analisis data
+- **/data**: Direktori ini berisi data yang digunakan dalam proyek, dalam format.csv
+- **/notebook.ipynb**: Notebook Jupyter untuk eksplorasi dan analisis data
 
 ## Instalasi
 1. Clone repository ini ke komputer lokal Anda menggunakan perintah berikut:
@@ -30,9 +29,9 @@ Analysis-Bike-Rental/
    pip install streamlit
    pip install -r requirements.txt
    ```
-4. run rhe dashboard 
+4. run the dashboard 
    ```cd dashboard 
    streamlit run dashboard.py
    ```   
-## Kontribusi
-Kontribusi sangat diterima! Jika Anda ingin membantu, silakan lakukan pull request dengan perubahan yang jelas dan terdokumentasi dengan baik.
+## Website
+    Atau bisa dengan kunjungi website ini [Project Data Analytics](https://bike-rental-analysis-alisha.streamlit.app/)
