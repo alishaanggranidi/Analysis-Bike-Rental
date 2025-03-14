@@ -23,13 +23,16 @@ Analysis-Bike-Rental/
    ```
 2. Masuk ke direktori proyek:
    ```bash
-   cd Analysis-Bike-Rental
+   cd <folder local>
    ```
 3. Install dependencies yang diperlukan:
    ```bash
    pip install streamlit
    pip install -r requirements.txt
    ```
-   
+4. run rhe dashboard 
+   ```cd dashboard 
+   streamlit run dashboard.py
+   ```   
 ## Kontribusi
 Kontribusi sangat diterima! Jika Anda ingin membantu, silakan lakukan pull request dengan perubahan yang jelas dan terdokumentasi dengan baik.
