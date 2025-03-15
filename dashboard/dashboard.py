@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 import requests
 from sklearn.preprocessing import StandardScaler
+import os
 
 sns.set(style='dark')
 def create_user_segment_df(df):
@@ -77,8 +78,9 @@ def main():
         layout="wide"
     )
     
-    df_day = pd.read_csv("day.csv")
-    df_hour = pd.read_csv("hour.csv")
+    script_dir = os.path.dirname(os.path.abspath(__file__))  # Get script directory
+    df_day = pd.read_csv(os.path.join(script_dir, "day.csv"))
+    df_hour = pd.read_csv(os.path.join(script_dir, "hour.csv"))
     
     df_day['dteday'] = pd.to_datetime(df_day['dteday'])
     df_hour['dteday'] = pd.to_datetime(df_hour['dteday'])
