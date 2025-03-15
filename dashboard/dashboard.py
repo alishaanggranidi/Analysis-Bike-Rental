@@ -8,7 +8,21 @@ import requests
 from sklearn.preprocessing import StandardScaler
 
 sns.set(style='dark')
-
+def create_user_segment_df(df):
+    user_segments = df.copy()
+    
+    user_segments['casual_ratio'] = user_segments['casual'] / user_segments['count_cr']
+    user_segments['registered_ratio'] = user_segments['registered'] / user_segments['count_cr']
+    
+    segment_analysis = user_segments.groupby('season').agg({
+        'casual': 'sum',
+        'registered': 'sum',
+        'count_cr': 'mean',
+        'casual_ratio': 'mean',
+        'registered_ratio': 'mean'
+    }).reset_index()
+    
+    return segment_analysis
 def create_hourly_rentals_df(df):
     hourly_rentals_df = df.groupby("hours")["count_cr"].sum().reset_index()
     return hourly_rentals_df
@@ -302,32 +316,60 @@ def main():
             
         st.pyplot(fig)
     
-    st.subheader("Korelasi antara Faktor Cuaca dan Penyewaan")
+    st.subheader("User Segmentation Analysis")
 
-    numeric_cols = ['temp', 'humidity', 'wind_speed', 'count_cr']
-    corr_df = filtered_hour_df[numeric_cols].corr()
-    
-    fig, ax = plt.subplots(figsize=(8, 6))
-    mask = np.triu(np.ones_like(corr_df, dtype=bool))
-    cmap = sns.diverging_palette(220, 10, as_cmap=True)
-    
-    sns.heatmap(
-        corr_df, 
-        mask=mask, 
-        cmap=cmap, 
-        vmax=1, 
-        vmin=-1, 
-        center=0,
-        annot=True, 
-        fmt=".2f",
-        square=True, 
-        linewidths=.5, 
-        cbar_kws={"shrink": .8}
-    )
-    
-    plt.title("Korelasi antara Faktor Cuaca dan Penyewaan", fontsize=15)
+    segment_analysis = create_user_segment_df(filtered_day_df)
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.bar(segment_analysis['season'], segment_analysis['casual'], label='Casual Users', color='#FFADCB')
+    ax.bar(segment_analysis['season'], segment_analysis['registered'], bottom=segment_analysis['casual'],
+        label='Registered Users', color='#66B2FF')
+
+    ax.set_title('User Segmentation by Season', fontsize=20)
+    ax.set_xlabel('Season', fontsize=15)
+    ax.set_ylabel('Total Rentals', fontsize=15)
+    ax.legend(fontsize=12)
+    ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+    for i, season in enumerate(segment_analysis['season']):
+        avg_usage = segment_analysis.loc[segment_analysis['season'] == season, 'count_cr'].values[0]
+        ax.text(i, segment_analysis['casual'][i] + segment_analysis['registered'][i] + 100, 
+                f'Avg: {avg_usage:.0f}/day', ha='center', fontsize=12)
+
+    plt.tight_layout()
     st.pyplot(fig)
 
+    # Add a metrics comparison
+    col1, col2 = st.columns(2)
+
+    with col1:
+        casual_total = filtered_day_df['casual'].sum()
+        registered_total = filtered_day_df['registered'].sum()
+        casual_pct = (casual_total / (casual_total + registered_total) * 100)
+        
+        fig, ax = plt.subplots(figsize=(8, 8))
+        ax.pie([casual_total, registered_total], 
+            labels=['Casual', 'Registered'],
+            autopct='%1.1f%%',
+            explode=(0.05, 0),
+            colors=['#FFADCB', '#66B2FF'],
+            startangle=90,
+            textprops={'fontsize': 14})
+        ax.set_title('User Type Distribution', fontsize=16)
+        st.pyplot(fig)
+
+    with col2:
+        st.markdown("### User Segment Metrics")
+        st.metric("Casual Users", f"{casual_total:,}", f"{casual_pct:.1f}%")
+        st.metric("Registered Users", f"{registered_total:,}", f"{100-casual_pct:.1f}%")
+        
+        # Calculate avg rentals per day by user type
+        st.markdown("### Average Daily Rentals by User Type")
+        casual_avg = round(filtered_day_df['casual'].mean(), 1)
+        registered_avg = round(filtered_day_df['registered'].mean(), 1)
+        st.metric("Casual", f"{casual_avg:,}")
+        st.metric("Registered", f"{registered_avg:,}")
+    
     st.caption('Bike Rental Analysis Dashboard © 2025')
 
 if __name__ == '__main__':
